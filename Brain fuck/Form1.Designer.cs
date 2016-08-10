@@ -36,17 +36,22 @@
             this.label3 = new System.Windows.Forms.Label();
             this.OutPutBox = new System.Windows.Forms.TextBox();
             this.Chars = new System.Windows.Forms.TextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.FastcheckBox = new System.Windows.Forms.CheckBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.OpentextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helloWorldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helloWorldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SlowcheckBox = new System.Windows.Forms.CheckBox();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.TrackValLabel = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // CodeBox
             // 
-            this.CodeBox.Location = new System.Drawing.Point(12, 153);
+            this.CodeBox.Location = new System.Drawing.Point(12, 176);
             this.CodeBox.Multiline = true;
             this.CodeBox.Name = "CodeBox";
             this.CodeBox.Size = new System.Drawing.Size(260, 160);
@@ -54,17 +59,17 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 109);
+            this.button1.Location = new System.Drawing.Point(12, 113);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(133, 45);
             this.button1.TabIndex = 1;
-            this.button1.Text = "F*ck";
+            this.button1.Text = "Brain F*ck";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // InPutBox
             // 
-            this.InPutBox.Location = new System.Drawing.Point(284, 173);
+            this.InPutBox.Location = new System.Drawing.Point(284, 196);
             this.InPutBox.Multiline = true;
             this.InPutBox.Name = "InPutBox";
             this.InPutBox.Size = new System.Drawing.Size(243, 61);
@@ -73,7 +78,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 135);
+            this.label1.Location = new System.Drawing.Point(12, 161);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 12);
             this.label1.TabIndex = 3;
@@ -82,7 +87,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(282, 158);
+            this.label2.Location = new System.Drawing.Point(282, 181);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 12);
             this.label2.TabIndex = 4;
@@ -91,7 +96,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(282, 237);
+            this.label3.Location = new System.Drawing.Point(282, 260);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(40, 12);
             this.label3.TabIndex = 6;
@@ -99,7 +104,7 @@
             // 
             // OutPutBox
             // 
-            this.OutPutBox.Location = new System.Drawing.Point(284, 252);
+            this.OutPutBox.Location = new System.Drawing.Point(284, 275);
             this.OutPutBox.Multiline = true;
             this.OutPutBox.Name = "OutPutBox";
             this.OutPutBox.ReadOnly = true;
@@ -115,16 +120,16 @@
             this.Chars.Size = new System.Drawing.Size(515, 76);
             this.Chars.TabIndex = 8;
             // 
-            // checkBox1
+            // FastcheckBox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(93, 113);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(70, 16);
-            this.checkBox1.TabIndex = 9;
-            this.checkBox1.Text = "F*cking!!";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.FastcheckBox.AutoSize = true;
+            this.FastcheckBox.Location = new System.Drawing.Point(151, 117);
+            this.FastcheckBox.Name = "FastcheckBox";
+            this.FastcheckBox.Size = new System.Drawing.Size(70, 16);
+            this.FastcheckBox.TabIndex = 9;
+            this.FastcheckBox.Text = "F*cking!!";
+            this.FastcheckBox.UseVisualStyleBackColor = true;
+            this.FastcheckBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // menuStrip1
             // 
@@ -146,13 +151,6 @@
             this.OpentextToolStripMenuItem.Text = "テキストを開く";
             this.OpentextToolStripMenuItem.Click += new System.EventHandler(this.OpentextToolStripMenuItem_Click);
             // 
-            // helloWorldToolStripMenuItem
-            // 
-            this.helloWorldToolStripMenuItem.Name = "helloWorldToolStripMenuItem";
-            this.helloWorldToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
-            this.helloWorldToolStripMenuItem.Text = "Hello, world!";
-            this.helloWorldToolStripMenuItem.Click += new System.EventHandler(this.helloWorldToolStripMenuItem_Click);
-            // 
             // SaveTextToolStripMenuItem
             // 
             this.SaveTextToolStripMenuItem.Name = "SaveTextToolStripMenuItem";
@@ -160,12 +158,65 @@
             this.SaveTextToolStripMenuItem.Text = "テキストに保存";
             this.SaveTextToolStripMenuItem.Click += new System.EventHandler(this.SaveTextToolStripMenuItem_Click);
             // 
+            // helloWorldToolStripMenuItem
+            // 
+            this.helloWorldToolStripMenuItem.Name = "helloWorldToolStripMenuItem";
+            this.helloWorldToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
+            this.helloWorldToolStripMenuItem.Text = "Hello, world!";
+            this.helloWorldToolStripMenuItem.Click += new System.EventHandler(this.helloWorldToolStripMenuItem_Click);
+            // 
+            // SlowcheckBox
+            // 
+            this.SlowcheckBox.AutoSize = true;
+            this.SlowcheckBox.Location = new System.Drawing.Point(227, 117);
+            this.SlowcheckBox.Name = "SlowcheckBox";
+            this.SlowcheckBox.Size = new System.Drawing.Size(57, 16);
+            this.SlowcheckBox.TabIndex = 11;
+            this.SlowcheckBox.Text = "Slowly";
+            this.SlowcheckBox.UseVisualStyleBackColor = true;
+            this.SlowcheckBox.CheckedChanged += new System.EventHandler(this.SlowcheckBox_CheckedChanged);
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.Enabled = false;
+            this.trackBar1.LargeChange = 100;
+            this.trackBar1.Location = new System.Drawing.Point(290, 125);
+            this.trackBar1.Maximum = 1000;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(104, 45);
+            this.trackBar1.SmallChange = 10;
+            this.trackBar1.TabIndex = 10;
+            this.trackBar1.TickFrequency = 100;
+            this.trackBar1.Value = 50;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
+            // TrackValLabel
+            // 
+            this.TrackValLabel.AutoSize = true;
+            this.TrackValLabel.Location = new System.Drawing.Point(365, 110);
+            this.TrackValLabel.Name = "TrackValLabel";
+            this.TrackValLabel.Size = new System.Drawing.Size(0, 12);
+            this.TrackValLabel.TabIndex = 12;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(295, 110);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(68, 12);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "SleepValue :";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(539, 329);
-            this.Controls.Add(this.checkBox1);
+            this.ClientSize = new System.Drawing.Size(539, 348);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.TrackValLabel);
+            this.Controls.Add(this.trackBar1);
+            this.Controls.Add(this.SlowcheckBox);
+            this.Controls.Add(this.FastcheckBox);
             this.Controls.Add(this.Chars);
             this.Controls.Add(this.OutPutBox);
             this.Controls.Add(this.label3);
@@ -178,8 +229,10 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "BF";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -195,11 +248,15 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox OutPutBox;
         private System.Windows.Forms.TextBox Chars;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox FastcheckBox;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem OpentextToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helloWorldToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SaveTextToolStripMenuItem;
+        private System.Windows.Forms.CheckBox SlowcheckBox;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.Label TrackValLabel;
+        private System.Windows.Forms.Label label4;
     }
 }
 

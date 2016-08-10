@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using System.IO;
 
@@ -13,8 +13,11 @@ namespace Brain_fuck
 {
     public partial class Form1 : Form
     {
-        private byte[] BfText = new byte[1000];
+        private List<byte> BfText = new List<byte>();
         private bool fkon;
+        private bool fkoff;
+        private int SleepTime;
+        private int ptr = 0;
 
         public Form1()
         {
@@ -24,11 +27,16 @@ namespace Brain_fuck
         private void CurrentState()
         {
             Chars.Text = "";
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < BfText.Count; i++)
             {
+                if (i == ptr) Chars.Text += "[";
+
                 if (BfText[i] < 10) Chars.Text += "00" + BfText[i];
                 else if (BfText[i] < 100) Chars.Text += "0" + BfText[i];
                 else Chars.Text += BfText[i];
+
+                if (i == ptr) Chars.Text += "]";
+
                 Chars.Text += " ";
             }
             Chars.Refresh();
@@ -37,19 +45,20 @@ namespace Brain_fuck
 
         private void Resetting()
         {
-            for (int i = 0; i < 100; i++)
-                BfText[i] = 0;
+            BfText.Clear();
+            BfText.Add(0);
             OutPutBox.Text = "";
         }
         
         private void button1_Click(object sender, EventArgs e)
         {
+            button1.Enabled = false;
+            button1.Text = "Now F*cking";
             Resetting();
             CurrentState();
             
 
             int l = CodeBox.Text.Length;
-            int ptr = 0;
             int count = 0;
             string[] Inputs = InPutBox.Text.Split(' ');
 
@@ -66,6 +75,7 @@ namespace Brain_fuck
                         BfText[ptr]--;
                         break;
                     case '>':
+                        if(BfText.Count - 1 <= ptr)BfText.Add(0);
                         ptr++;
                         break;
                     case '<':
@@ -91,14 +101,13 @@ namespace Brain_fuck
                         break;
                 }
                 if(!fkon) CurrentState();
+                if (fkoff) Thread.Sleep(SleepTime);
             }
             if(fkon) CurrentState();
             OutPutBox.Text += "\r\n---Dice is great.---";
-        }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            fkon = checkBox1.Checked;
+            button1.Text = "Brain F*ck";
+            button1.Enabled = true;
         }
 
         private void OpentextToolStripMenuItem_Click(object sender, EventArgs e)
@@ -150,6 +159,33 @@ namespace Brain_fuck
                 writer.WriteLine(CodeBox.Text);
             }
             else MessageBox.Show("テキストの書き込みに失敗しました。");
+        }
+
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            fkon = FastcheckBox.Checked;
+            SlowcheckBox.Enabled = !FastcheckBox.Checked;
+        }
+
+        private void SlowcheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            bool check = SlowcheckBox.Checked;
+            fkoff = check;
+            trackBar1.Enabled = check;
+            TrackValLabel.Text = trackBar1.Value.ToString();
+            FastcheckBox.Enabled = !check;
+        }
+    
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            SleepTime = trackBar1.Value;
+            TrackValLabel.Text = trackBar1.Value.ToString();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
