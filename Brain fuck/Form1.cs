@@ -16,8 +16,9 @@ namespace Brain_fuck
         private List<byte> BfText = new List<byte>();
         private bool fkon;
         private bool fkoff;
+        private bool stop = false;
         private int SleepTime;
-        private int ptr = 0;
+        private int ptr;
 
         public Form1()
         {
@@ -48,12 +49,14 @@ namespace Brain_fuck
             BfText.Clear();
             BfText.Add(0);
             OutPutBox.Text = "";
+            ptr = 0;
         }
         
         private void button1_Click(object sender, EventArgs e)
         {
             button1.Enabled = false;
             button1.Text = "Now F*cking";
+            Stopbutton.Enabled = true;
             Resetting();
             CurrentState();
             
@@ -65,6 +68,7 @@ namespace Brain_fuck
 
             for(int i = 0;i < l; i++)
             {
+                if (stop) break;
                 char ch = CodeBox.Text[i];
                 switch (ch)
                 {
@@ -107,7 +111,9 @@ namespace Brain_fuck
             OutPutBox.Text += "\r\n---Dice is great.---";
 
             button1.Text = "Brain F*ck";
+            stop = false;
             button1.Enabled = true;
+            Stopbutton.Enabled = false;
         }
 
         private void OpentextToolStripMenuItem_Click(object sender, EventArgs e)
@@ -183,9 +189,9 @@ namespace Brain_fuck
             TrackValLabel.Text = trackBar1.Value.ToString();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Stopbutton_Click(object sender, EventArgs e)
         {
-
+            stop = true;
         }
     }
 }

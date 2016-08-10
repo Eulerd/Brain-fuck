@@ -45,6 +45,7 @@
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.TrackValLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.Stopbutton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
@@ -123,7 +124,7 @@
             // FastcheckBox
             // 
             this.FastcheckBox.AutoSize = true;
-            this.FastcheckBox.Location = new System.Drawing.Point(151, 117);
+            this.FastcheckBox.Location = new System.Drawing.Point(284, 113);
             this.FastcheckBox.Name = "FastcheckBox";
             this.FastcheckBox.Size = new System.Drawing.Size(70, 16);
             this.FastcheckBox.TabIndex = 9;
@@ -168,7 +169,7 @@
             // SlowcheckBox
             // 
             this.SlowcheckBox.AutoSize = true;
-            this.SlowcheckBox.Location = new System.Drawing.Point(227, 117);
+            this.SlowcheckBox.Location = new System.Drawing.Point(360, 113);
             this.SlowcheckBox.Name = "SlowcheckBox";
             this.SlowcheckBox.Size = new System.Drawing.Size(57, 16);
             this.SlowcheckBox.TabIndex = 11;
@@ -180,7 +181,7 @@
             // 
             this.trackBar1.Enabled = false;
             this.trackBar1.LargeChange = 100;
-            this.trackBar1.Location = new System.Drawing.Point(290, 125);
+            this.trackBar1.Location = new System.Drawing.Point(423, 121);
             this.trackBar1.Maximum = 1000;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(104, 45);
@@ -193,7 +194,7 @@
             // TrackValLabel
             // 
             this.TrackValLabel.AutoSize = true;
-            this.TrackValLabel.Location = new System.Drawing.Point(365, 110);
+            this.TrackValLabel.Location = new System.Drawing.Point(498, 106);
             this.TrackValLabel.Name = "TrackValLabel";
             this.TrackValLabel.Size = new System.Drawing.Size(0, 12);
             this.TrackValLabel.TabIndex = 12;
@@ -201,17 +202,29 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(295, 110);
+            this.label4.Location = new System.Drawing.Point(428, 106);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(68, 12);
             this.label4.TabIndex = 13;
             this.label4.Text = "SleepValue :";
+            // 
+            // Stopbutton
+            // 
+            this.Stopbutton.Enabled = false;
+            this.Stopbutton.Location = new System.Drawing.Point(151, 113);
+            this.Stopbutton.Name = "Stopbutton";
+            this.Stopbutton.Size = new System.Drawing.Size(75, 23);
+            this.Stopbutton.TabIndex = 14;
+            this.Stopbutton.Text = "Stop";
+            this.Stopbutton.UseVisualStyleBackColor = true;
+            this.Stopbutton.Click += new System.EventHandler(this.Stopbutton_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(539, 348);
+            this.Controls.Add(this.Stopbutton);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.TrackValLabel);
             this.Controls.Add(this.trackBar1);
@@ -229,7 +242,6 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "BF";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
@@ -257,6 +269,7 @@
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.Label TrackValLabel;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button Stopbutton;
     }
 }
 
