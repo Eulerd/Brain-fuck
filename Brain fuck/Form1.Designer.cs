@@ -40,6 +40,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.OpentextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helloWorldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -129,6 +130,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.OpentextToolStripMenuItem,
+            this.SaveTextToolStripMenuItem,
             this.helloWorldToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -150,6 +152,13 @@
             this.helloWorldToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
             this.helloWorldToolStripMenuItem.Text = "Hello, world!";
             this.helloWorldToolStripMenuItem.Click += new System.EventHandler(this.helloWorldToolStripMenuItem_Click);
+            // 
+            // SaveTextToolStripMenuItem
+            // 
+            this.SaveTextToolStripMenuItem.Name = "SaveTextToolStripMenuItem";
+            this.SaveTextToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
+            this.SaveTextToolStripMenuItem.Text = "テキストに保存";
+            this.SaveTextToolStripMenuItem.Click += new System.EventHandler(this.SaveTextToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -190,6 +199,7 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem OpentextToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helloWorldToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SaveTextToolStripMenuItem;
     }
 }
 

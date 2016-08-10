@@ -26,8 +26,10 @@ namespace Brain_fuck
             Chars.Text = "";
             for (int i = 0; i < 100; i++)
             {
-                if(BfText[i] >= 10) Chars.Text += (char)BfText[i] + " ";
-                else Chars.Text += BfText[i] + " ";
+                if (BfText[i] < 10) Chars.Text += "00" + BfText[i];
+                else if (BfText[i] < 100) Chars.Text += "0" + BfText[i];
+                else Chars.Text += BfText[i];
+                Chars.Text += " ";
             }
             Chars.Refresh();
             Application.DoEvents();
@@ -129,6 +131,25 @@ namespace Brain_fuck
                 StreamReader file = new StreamReader("./Hw!_BF.txt");
                 CodeBox.Text = file.ReadToEnd();
             }
+        }
+
+        private void SaveTextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog
+            {
+                DefaultExt = "*.txt",
+                Filter = "テキストファイル|*.txt|すべてのファイル|*.*",
+                Title = "フ*ッキンテキストを保存",
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                StreamWriter writer = 
+                    new StreamWriter(dialog.FileName, false, Encoding.GetEncoding("UTF-8"));
+
+                writer.WriteLine(CodeBox.Text);
+            }
+            else MessageBox.Show("テキストの書き込みに失敗しました。");
         }
     }
 }
