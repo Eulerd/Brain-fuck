@@ -163,12 +163,19 @@ namespace Brain_fuck
                 Title = "フ*ッキンテキストを開く",
             };
 
-            if (dialog.ShowDialog() == DialogResult.OK)
+            switch (dialog.ShowDialog())
             {
-                StreamReader file = new StreamReader(dialog.FileName);
-                CodeBox.Text = file.ReadToEnd();
+                case DialogResult.OK:
+                    StreamReader file = new StreamReader(dialog.FileName);
+                    CodeBox.Text = file.ReadToEnd();
+                    break;
+                case DialogResult.Cancel:
+                    break;
+
+                default:
+                    MessageBox.Show("テキストの読み取りに失敗しました。");
+                    break;
             }
-            else MessageBox.Show("テキストの読み取りに失敗しました。");
         }
 
         /// <summary>
@@ -184,10 +191,24 @@ namespace Brain_fuck
                 MessageBoxIcon.Exclamation,
                 MessageBoxDefaultButton.Button2);
 
-            if(result == DialogResult.Yes)
+            switch (result)
             {
-                StreamReader file = new StreamReader("./Hw!_BF.txt");
-                CodeBox.Text = file.ReadToEnd();
+                case DialogResult.Yes:
+                    string fileName = "./Hw!_BF.txt";
+                    try
+                    {
+                        StreamReader file = new StreamReader(fileName);
+                        CodeBox.Text = file.ReadToEnd();
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        MessageBox.Show("Hw!_BF.txtが見つかりません");
+                    }
+                    break;
+
+                case DialogResult.No:
+                case DialogResult.Cancel:
+                    break;
             }
         }
 
@@ -205,14 +226,25 @@ namespace Brain_fuck
                 Title = "フ*ッキンテキストを保存",
             };
 
-            if (dialog.ShowDialog() == DialogResult.OK)
+            switch (dialog.ShowDialog())
             {
-                StreamWriter writer = 
-                    new StreamWriter(dialog.FileName, false, Encoding.GetEncoding("UTF-8"));
+                case DialogResult.OK:
+                    try
+                    {
+                        StreamWriter writer = 
+                            new StreamWriter(dialog.FileName, false, Encoding.GetEncoding("UTF-8"));
 
-                writer.WriteLine(CodeBox.Text);
+                        writer.WriteLine(CodeBox.Text);
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("テキストの書き込みに失敗しました。");
+                    }
+                    break;
+
+                case DialogResult.Cancel:
+                    break;
             }
-            else MessageBox.Show("テキストの書き込みに失敗しました。");
         }
 
         /// <summary>
