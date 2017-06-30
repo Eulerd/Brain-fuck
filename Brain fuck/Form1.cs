@@ -14,17 +14,7 @@ namespace Brain_fuck
     public partial class Form1 : Form
     {
         private BrainF_ck brainF_ck;
-
-        /// <summary>
-        /// メモリ状態を表示せずに速度上げるかどうか
-        /// </summary>
-        private bool fkon;
-
-        /// <summary>
-        /// 一ステップ毎に待つかどうか
-        /// </summary>
-        private bool fkoff;
-
+        
         /// <summary>
         /// 停止
         /// </summary>
@@ -63,6 +53,7 @@ namespace Brain_fuck
 
             brainF_ck = new BrainF_ck(code : CodeBox.Text, inputs : InPutBox.Text);
             UpdateMemoryState();
+            OutPutBox.Text = "";
 
             while(!brainF_ck.IsEnded)
             {
@@ -74,55 +65,19 @@ namespace Brain_fuck
                     OutPutBox.Refresh();
                 }
 
-                if (!fkon) UpdateMemoryState();
-                if (fkoff) Thread.Sleep(SleepTime);
+                if (!FastcheckBox.Checked)
+                    UpdateMemoryState();
+
+                if (SlowcheckBox.Checked)
+                    Thread.Sleep(SleepTime);
+
+                if (stop)
+                    break;
             }
-            //int l = CodeBox.Text.Length;
-            //int count = 0;
+
+            if(FastcheckBox.Checked)
+                UpdateMemoryState();
             
-            //for(int i = 0;i < l; i++)
-            //{
-            //    if (stop) break;
-            //    char ch = CodeBox.Text[i];
-            //    switch (ch)
-            //    {
-            //        case '+':
-            //            BfMemory[ptr]++;
-            //            break;
-            //        case '-':
-            //            BfMemory[ptr]--;
-            //            break;
-            //        case '>':
-            //            if(BfMemory.Count - 1 <= ptr)BfMemory.Add(0);
-            //            ptr++;
-            //            break;
-            //        case '<':
-            //            ptr--;
-            //            break;
-            //        case '.':
-            //            OutPutBox.Text += (char)BfMemory[ptr];
-            //            OutPutBox.Refresh();
-            //            break;
-            //        case ',':
-            //            break;
-            //        case '[':
-            //            if (BfMemory[ptr] == 0)
-            //                i = CodeBox.Text.IndexOf(']', ptr);
-            //            else
-            //                count = i;
-            //            break;
-            //        case ']':
-            //            if (BfMemory[ptr] != 0)
-            //                i = count;
-            //            break;
-            //        default:
-            //            break;
-            //    }
-
-            //}
-            if(fkon) UpdateMemoryState();
-            OutPutBox.Text += "\r\n---Dice is great.---";
-
             startButton.Text = "Brain F*ck";
             stop = false;
             startButton.Enabled = true;
@@ -234,7 +189,6 @@ namespace Brain_fuck
         /// <param name="e"></param>
         private void FastCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            fkon = FastcheckBox.Checked;
             SlowcheckBox.Enabled = !FastcheckBox.Checked;
         }
 
@@ -245,11 +199,10 @@ namespace Brain_fuck
         /// <param name="e"></param>
         private void SlowcheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            bool check = SlowcheckBox.Checked;
-            fkoff = check;
-            trackBar1.Enabled = check;
+            bool slowCheck = SlowcheckBox.Checked;
+            trackBar1.Enabled = slowCheck;
             TrackValLabel.Text = trackBar1.Value.ToString();
-            FastcheckBox.Enabled = !check;
+            FastcheckBox.Enabled = !slowCheck;
         }
     
         /// <summary>
