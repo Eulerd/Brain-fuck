@@ -96,7 +96,7 @@ namespace Brain_fuck
 
             int l = CodeBox.Text.Length;
             int count = 0;
-            string[] Inputs = InPutBox.Text.Split(' ');
+            string[] Inputs = InPutBox.Text.Split(' ', '\n');
 
 
             for(int i = 0;i < l; i++)
