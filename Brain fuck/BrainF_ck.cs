@@ -11,36 +11,38 @@ namespace Brain_fuck
         /// <summary>
         /// 仮想メモリ
         /// </summary>
-        List<byte> memory;
+        private List<byte> memory;
 
         /// <summary>
         /// BrainF_ckコード
         /// </summary>
-        readonly string bfCode;
+        private readonly string bfCode;
         
         /// <summary>
         /// 入力データ
         /// </summary>
-        Queue<byte> inputData;
+        private Queue<byte> inputData;
 
         /// <summary>
         /// メモリポインタ
         /// </summary>
-        int memoryPtr;
+        private int memoryPtr;
 
         /// <summary>
         /// コードポインタ
         /// </summary>
-        int codePtr;
+        private int codePtr;
 
         /// <summary>
         /// 括弧同士の対応データ
         /// </summary>
-        Dictionary<int, int> brankets;
+        private Dictionary<int, int> brankets;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
+        /// <param name="code">BrainF*ckのコード</param>
+        /// <param name="inputs">BrainF*ckのコードに渡させる入力情報</param>
         public BrainF_ck(string code, string inputs)
         {
             CheckBranketsCount(code);
@@ -56,6 +58,7 @@ namespace Brain_fuck
             {
                 inputData.Enqueue((byte)input);
             }
+            SetLoopSymbol();
 
             memory.Clear();
             memory.Add(0);
@@ -63,67 +66,44 @@ namespace Brain_fuck
             codePtr = 0;
 
             IsOutputUpdate = false;
+            IsEnded = false;
             OutputData = '\0';
         }
-
+        
         /// <summary>
-        /// 括弧の過不足がないか確認
+        /// メモリの状態を文字列で取得
         /// </summary>
-        void CheckBranketsCount(string code)
+        /// <returns>メモリの状態</returns>
+        public string GetMemoryState()
         {
-            bool IsSameCount = true;
-            foreach(char ch in code)
+            string memoryState = "";
+
+            for(int i = 0;i < memory.Count();i++)
             {
-                switch (ch)
-                {
-                    case '[':
-                    case ']':
-                        IsSameCount = !IsSameCount;
-                        break;
-                }
+                if (i == memoryPtr)
+                    memoryState += "[";
+
+                memoryState += memory[i].ToString("D3");
+
+                if (i == memoryPtr)
+                    memoryState += "]";
+
+                memoryState += " ";
             }
 
-            if (!IsSameCount)
-                throw new ArgumentException("括弧の数が間違っています。");
+            return memoryState;
         }
-
-        /// <summary>
-        /// 括弧の対応関係を設定する
-        /// </summary>
-        void SetLoopSymbol()
-        {
-            int left = 0;
-            int right = bfCode.Length - 1;
-
-            while(left < right)
-            {
-                if(bfCode[left] == '[')
-                {
-                    while(left < right)
-                    {
-                        if(bfCode[right] == ']')
-                        {
-                            brankets.Add(left, right);
-                            brankets.Add(right, left);
-                            break;
-                        }
-
-                        right--;
-                    }
-                }
-
-                left++;
-            }
-            
-        }
-
+        
         /// <summary>
         /// 次のステップ
         /// </summary>
-        void NextStep()
+        public void NextStep()
         {
             if (bfCode.Length <= codePtr)
-                throw new IndexOutOfRangeException("このコードは終了しています。");
+            {
+                IsEnded = true;
+                return;
+            }
 
             if (IsOutputUpdate)
                 IsOutputUpdate = false;
@@ -163,18 +143,74 @@ namespace Brain_fuck
 
                 case '[':
                     if (memory[memoryPtr] == 0)
-                        memoryPtr = brankets[memoryPtr];
-                    else
-                        memoryPtr++;
+                        codePtr = brankets[codePtr];
+
                     break;
 
                 case ']':
-                    memoryPtr = brankets[memoryPtr];
+                    if (memory[memoryPtr] != 0)
+                        codePtr = brankets[codePtr];
                     break;
             }
 
             codePtr++;
         }
+
+        /// <summary>
+        /// 括弧の過不足がないか確認
+        /// </summary>
+        private void CheckBranketsCount(string code)
+        {
+            bool IsSameCount = true;
+            foreach(char ch in code)
+            {
+                switch (ch)
+                {
+                    case '[':
+                    case ']':
+                        IsSameCount = !IsSameCount;
+                        break;
+                }
+            }
+
+            if (!IsSameCount)
+                throw new ArgumentException("括弧の数が間違っています。");
+        }
+
+        /// <summary>
+        /// 括弧の対応関係を設定する
+        /// </summary>
+        private void SetLoopSymbol()
+        {
+            int left = 0;
+            int right = bfCode.Length - 1;
+
+            while(left < right)
+            {
+                if(bfCode[left] == '[')
+                {
+                    while(left < right)
+                    {
+                        if(bfCode[right] == ']')
+                        {
+                            brankets.Add(left, right);
+                            brankets.Add(right, left);
+                            break;
+                        }
+
+                        right--;
+                    }
+                }
+
+                left++;
+            }
+            
+        }
+        
+        /// <summary>
+        /// 終了したか
+        /// </summary>
+        public bool IsEnded { get; private set; }
 
         /// <summary>
         /// 出力データが更新されたか

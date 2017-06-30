@@ -13,10 +13,7 @@ namespace Brain_fuck
 {
     public partial class Form1 : Form
     {
-        /// <summary>
-        /// BF用仮想メモリ
-        /// </summary>
-        private List<byte> BfMemory = new List<byte>();
+        private BrainF_ck brainF_ck;
 
         /// <summary>
         /// メモリ状態を表示せずに速度上げるかどうか
@@ -37,12 +34,7 @@ namespace Brain_fuck
         /// ステップ毎待ち時間
         /// </summary>
         private int SleepTime;
-
-        /// <summary>
-        /// Bfメモリポインタ
-        /// </summary>
-        private int ptr;
-
+        
         public Form1()
         {
             InitializeComponent();
@@ -53,34 +45,11 @@ namespace Brain_fuck
         /// </summary>
         private void UpdateMemoryState()
         {
-            Chars.Text = "";
-            for (int i = 0; i < BfMemory.Count; i++)
-            {
-                if (i == ptr) Chars.Text += "[";
-
-                if (BfMemory[i] < 10) Chars.Text += "00" + BfMemory[i];
-                else if (BfMemory[i] < 100) Chars.Text += "0" + BfMemory[i];
-                else Chars.Text += BfMemory[i];
-
-                if (i == ptr) Chars.Text += "]";
-
-                Chars.Text += " ";
-            }
+            Chars.Text = brainF_ck.GetMemoryState();
             Chars.Refresh();
             Application.DoEvents();
         }
 
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        private void Resetting()
-        {
-            BfMemory.Clear();
-            BfMemory.Add(0);
-            OutPutBox.Text = "";
-            ptr = 0;
-        }
-        
         /// <summary>
         /// Bfを実行する
         /// </summary>
@@ -91,55 +60,66 @@ namespace Brain_fuck
             startButton.Enabled = false;
             startButton.Text = "Now F*cking";
             Stopbutton.Enabled = true;
-            Resetting();
+
+            brainF_ck = new BrainF_ck(code : CodeBox.Text, inputs : InPutBox.Text);
             UpdateMemoryState();
 
-            int l = CodeBox.Text.Length;
-            int count = 0;
-            string[] Inputs = InPutBox.Text.Split(' ', '\n');
-
-
-            for(int i = 0;i < l; i++)
+            while(!brainF_ck.IsEnded)
             {
-                if (stop) break;
-                char ch = CodeBox.Text[i];
-                switch (ch)
+                brainF_ck.NextStep();
+
+                if(brainF_ck.IsOutputUpdate)
                 {
-                    case '+':
-                        BfMemory[ptr]++;
-                        break;
-                    case '-':
-                        BfMemory[ptr]--;
-                        break;
-                    case '>':
-                        if(BfMemory.Count - 1 <= ptr)BfMemory.Add(0);
-                        ptr++;
-                        break;
-                    case '<':
-                        ptr--;
-                        break;
-                    case '.':
-                        OutPutBox.Text += (char)BfMemory[ptr];
-                        OutPutBox.Refresh();
-                        break;
-                    case ',':
-                        break;
-                    case '[':
-                        if (BfMemory[ptr] == 0)
-                            i = CodeBox.Text.IndexOf(']', ptr);
-                        else
-                            count = i;
-                        break;
-                    case ']':
-                        if (BfMemory[ptr] != 0)
-                            i = count;
-                        break;
-                    default:
-                        break;
+                    OutPutBox.Text += brainF_ck.OutputData;
+                    OutPutBox.Refresh();
                 }
-                if(!fkon) UpdateMemoryState();
+
+                if (!fkon) UpdateMemoryState();
                 if (fkoff) Thread.Sleep(SleepTime);
             }
+            //int l = CodeBox.Text.Length;
+            //int count = 0;
+            
+            //for(int i = 0;i < l; i++)
+            //{
+            //    if (stop) break;
+            //    char ch = CodeBox.Text[i];
+            //    switch (ch)
+            //    {
+            //        case '+':
+            //            BfMemory[ptr]++;
+            //            break;
+            //        case '-':
+            //            BfMemory[ptr]--;
+            //            break;
+            //        case '>':
+            //            if(BfMemory.Count - 1 <= ptr)BfMemory.Add(0);
+            //            ptr++;
+            //            break;
+            //        case '<':
+            //            ptr--;
+            //            break;
+            //        case '.':
+            //            OutPutBox.Text += (char)BfMemory[ptr];
+            //            OutPutBox.Refresh();
+            //            break;
+            //        case ',':
+            //            break;
+            //        case '[':
+            //            if (BfMemory[ptr] == 0)
+            //                i = CodeBox.Text.IndexOf(']', ptr);
+            //            else
+            //                count = i;
+            //            break;
+            //        case ']':
+            //            if (BfMemory[ptr] != 0)
+            //                i = count;
+            //            break;
+            //        default:
+            //            break;
+            //    }
+
+            //}
             if(fkon) UpdateMemoryState();
             OutPutBox.Text += "\r\n---Dice is great.---";
 
