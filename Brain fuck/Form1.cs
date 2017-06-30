@@ -13,11 +13,34 @@ namespace Brain_fuck
 {
     public partial class Form1 : Form
     {
-        private List<byte> BfText = new List<byte>();
+        /// <summary>
+        /// BF用仮想メモリ
+        /// </summary>
+        private List<byte> BfMemory = new List<byte>();
+
+        /// <summary>
+        /// メモリ状態を表示せずに速度上げるかどうか
+        /// </summary>
         private bool fkon;
+
+        /// <summary>
+        /// 一ステップ毎に待つかどうか
+        /// </summary>
         private bool fkoff;
+
+        /// <summary>
+        /// 停止
+        /// </summary>
         private bool stop = false;
+
+        /// <summary>
+        /// ステップ毎待ち時間
+        /// </summary>
         private int SleepTime;
+
+        /// <summary>
+        /// Bfメモリポインタ
+        /// </summary>
         private int ptr;
 
         public Form1()
@@ -25,16 +48,19 @@ namespace Brain_fuck
             InitializeComponent();
         }
 
-        private void CurrentState()
+        /// <summary>
+        /// メモリ状態を更新する
+        /// </summary>
+        private void UpdateMemoryState()
         {
             Chars.Text = "";
-            for (int i = 0; i < BfText.Count; i++)
+            for (int i = 0; i < BfMemory.Count; i++)
             {
                 if (i == ptr) Chars.Text += "[";
 
-                if (BfText[i] < 10) Chars.Text += "00" + BfText[i];
-                else if (BfText[i] < 100) Chars.Text += "0" + BfText[i];
-                else Chars.Text += BfText[i];
+                if (BfMemory[i] < 10) Chars.Text += "00" + BfMemory[i];
+                else if (BfMemory[i] < 100) Chars.Text += "0" + BfMemory[i];
+                else Chars.Text += BfMemory[i];
 
                 if (i == ptr) Chars.Text += "]";
 
@@ -44,22 +70,29 @@ namespace Brain_fuck
             Application.DoEvents();
         }
 
+        /// <summary>
+        /// 初期化
+        /// </summary>
         private void Resetting()
         {
-            BfText.Clear();
-            BfText.Add(0);
+            BfMemory.Clear();
+            BfMemory.Add(0);
             OutPutBox.Text = "";
             ptr = 0;
         }
         
-        private void button1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Bfを実行する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void startButton_Click(object sender, EventArgs e)
         {
-            button1.Enabled = false;
-            button1.Text = "Now F*cking";
+            startButton.Enabled = false;
+            startButton.Text = "Now F*cking";
             Stopbutton.Enabled = true;
             Resetting();
-            CurrentState();
-            
+            UpdateMemoryState();
 
             int l = CodeBox.Text.Length;
             int count = 0;
@@ -73,49 +106,54 @@ namespace Brain_fuck
                 switch (ch)
                 {
                     case '+':
-                        BfText[ptr]++;
+                        BfMemory[ptr]++;
                         break;
                     case '-':
-                        BfText[ptr]--;
+                        BfMemory[ptr]--;
                         break;
                     case '>':
-                        if(BfText.Count - 1 <= ptr)BfText.Add(0);
+                        if(BfMemory.Count - 1 <= ptr)BfMemory.Add(0);
                         ptr++;
                         break;
                     case '<':
                         ptr--;
                         break;
                     case '.':
-                        OutPutBox.Text += (char)BfText[ptr];
+                        OutPutBox.Text += (char)BfMemory[ptr];
                         OutPutBox.Refresh();
                         break;
                     case ',':
                         break;
                     case '[':
-                        if (BfText[ptr] == 0)
+                        if (BfMemory[ptr] == 0)
                             i = CodeBox.Text.IndexOf(']', ptr);
                         else
                             count = i;
                         break;
                     case ']':
-                        if (BfText[ptr] != 0)
+                        if (BfMemory[ptr] != 0)
                             i = count;
                         break;
                     default:
                         break;
                 }
-                if(!fkon) CurrentState();
+                if(!fkon) UpdateMemoryState();
                 if (fkoff) Thread.Sleep(SleepTime);
             }
-            if(fkon) CurrentState();
+            if(fkon) UpdateMemoryState();
             OutPutBox.Text += "\r\n---Dice is great.---";
 
-            button1.Text = "Brain F*ck";
+            startButton.Text = "Brain F*ck";
             stop = false;
-            button1.Enabled = true;
+            startButton.Enabled = true;
             Stopbutton.Enabled = false;
         }
 
+        /// <summary>
+        /// ファイル入力
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OpentextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog
@@ -133,6 +171,11 @@ namespace Brain_fuck
             else MessageBox.Show("テキストの読み取りに失敗しました。");
         }
 
+        /// <summary>
+        /// Hello,worldサンプルテキストを入力
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void helloWorldToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show
@@ -148,6 +191,11 @@ namespace Brain_fuck
             }
         }
 
+        /// <summary>
+        /// コードを保存
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveTextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog
@@ -167,13 +215,22 @@ namespace Brain_fuck
             else MessageBox.Show("テキストの書き込みに失敗しました。");
         }
 
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        /// <summary>
+        /// メモリ状態を表示するかどうか設定
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FastCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             fkon = FastcheckBox.Checked;
             SlowcheckBox.Enabled = !FastcheckBox.Checked;
         }
 
+        /// <summary>
+        /// ステップ毎に待つかどうか設定
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SlowcheckBox_CheckedChanged(object sender, EventArgs e)
         {
             bool check = SlowcheckBox.Checked;
@@ -183,12 +240,22 @@ namespace Brain_fuck
             FastcheckBox.Enabled = !check;
         }
     
+        /// <summary>
+        /// ステップ毎待ち時間を設定
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             SleepTime = trackBar1.Value;
             TrackValLabel.Text = trackBar1.Value.ToString();
         }
 
+        /// <summary>
+        /// 停止の設定
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Stopbutton_Click(object sender, EventArgs e)
         {
             stop = true;
