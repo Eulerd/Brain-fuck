@@ -180,29 +180,23 @@ namespace Brain_fuck
         /// </summary>
         private void SetLoopSymbol()
         {
-            int left = 0;
-            int right = bfCode.Length - 1;
+            Stack<int> openBranketsStack = new Stack<int>();
 
-            while(left < right)
+            for(int i = 0;i < CodeLength;i++)
             {
-                if(bfCode[left] == '[')
+                switch(bfCode[i])
                 {
-                    while(left < right)
-                    {
-                        if(bfCode[right] == ']')
-                        {
-                            brankets.Add(left, right);
-                            brankets.Add(right, left);
-                            break;
-                        }
+                    case '[':
+                        openBranketsStack.Push(i);
+                        break;
 
-                        right--;
-                    }
+                    case ']':
+                        int num = openBranketsStack.Pop();
+                        brankets.Add(num, i);
+                        brankets.Add(i, num);
+                        break;
                 }
-
-                left++;
             }
-            
         }
         
         /// <summary>
