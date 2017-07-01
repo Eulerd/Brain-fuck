@@ -78,6 +78,9 @@ namespace Brain_fuck
 
             for(int i = 0;i < memory.Count();i++)
             {
+                if(i > 0)
+                    memoryState += " ";
+
                 if (i == memoryPtr)
                     memoryState += "[";
 
@@ -85,8 +88,6 @@ namespace Brain_fuck
 
                 if (i == memoryPtr)
                     memoryState += "]";
-
-                memoryState += " ";
             }
 
             return memoryState;
@@ -142,7 +143,6 @@ namespace Brain_fuck
                 case '[':
                     if (memory[memoryPtr] == 0)
                         codePtr = brankets[codePtr];
-
                     break;
 
                 case ']':
