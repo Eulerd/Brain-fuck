@@ -51,33 +51,46 @@ namespace Brain_fuck
             startButton.Text = "Now F*cking";
             Stopbutton.Enabled = true;
 
-            brainF_ck = new BrainF_ck(code : CodeBox.Text, inputs : InPutBox.Text);
-            UpdateMemoryState();
-            OutPutBox.Text = "";
-
-            while(!brainF_ck.IsEnded)
+            try
             {
-                brainF_ck.NextStep();
+                brainF_ck = new BrainF_ck(code: CodeBox.Text, inputs: InPutBox.Text);
 
-                if(brainF_ck.IsOutputUpdate)
+                UpdateMemoryState();
+                OutPutBox.Text = "";
+
+                while (!brainF_ck.IsEnded)
                 {
-                    OutPutBox.Text += brainF_ck.OutputData;
-                    OutPutBox.Refresh();
+                    brainF_ck.NextStep();
+
+
+                    if (brainF_ck.IsOutputUpdate)
+                    {
+                        OutPutBox.Text += brainF_ck.OutputData;
+                        OutPutBox.Refresh();
+                    }
+
+                    if (!FastcheckBox.Checked)
+                        UpdateMemoryState();
+
+                    if (SlowcheckBox.Checked)
+                        Thread.Sleep(SleepTime);
+
+                    if (stop)
+                        break;
                 }
 
-                if (!FastcheckBox.Checked)
+                if (FastcheckBox.Checked)
                     UpdateMemoryState();
-
-                if (SlowcheckBox.Checked)
-                    Thread.Sleep(SleepTime);
-
-                if (stop)
-                    break;
+            }
+            catch (ArgumentException exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+            catch (OutOfMemoryException exc)
+            {
+                MessageBox.Show(exc.Message);
             }
 
-            if(FastcheckBox.Checked)
-                UpdateMemoryState();
-            
             startButton.Text = "Brain F*ck";
             stop = false;
             startButton.Enabled = true;
