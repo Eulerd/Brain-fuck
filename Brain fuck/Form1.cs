@@ -62,6 +62,8 @@ namespace Brain_fuck
                 {
                     brainF_ck.NextStep();
 
+                    if (brainF_ck.IsEnded)
+                        break;
 
                     if (brainF_ck.IsOutputUpdate)
                     {

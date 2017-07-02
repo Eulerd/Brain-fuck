@@ -100,7 +100,7 @@ namespace Brain_fuck
         {
             if (bfCode.Length <= codePtr)
             {
-                IsEnded = true;
+                IsEnded = true; 
                 return;
             }
 
